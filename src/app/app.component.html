@@ -332,6 +332,8 @@
 <!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<app-navbar></app-navbar>
-<router-outlet />
-<app-login></app-login>
+<app-navbar *ngIf="isLoggedIn"></app-navbar>  <!-- Muestra el navbar solo si está logueado -->
+<router-outlet></router-outlet>  <!-- Carga las rutas en este lugar -->
+
+<!-- Muestra el formulario de login solo si no está logueado -->
+<app-login *ngIf="!isLoggedIn" (loginSuccess)="onLoginSuccess()"></app-login>

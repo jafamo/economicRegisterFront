@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,11 @@ export class LoginComponent {
   loginForm: FormGroup;
   loginError: string | null = null;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder, 
+    private authService: AuthService, 
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -30,7 +35,10 @@ export class LoginComponent {
     this.authService.login(email, password).subscribe({
       next: (res) => {
         console.log('Token recibido:', res.token);
-        this.getProfile(res.token);
+        localStorage.setItem('authToken', res.token);
+        //this.getProfile(res.token);
+        this.router.navigate(['category-list']);
+
       },
       error: (err) => {
         console.error('Error en el login', err);

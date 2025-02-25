@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <!-- Logo -->
       <a class="navbar-brand" href="/">
@@ -14,11 +14,21 @@
       <!-- Menú -->
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
+          <!-- Si el usuario está logueado, muestra el enlace de Categories -->
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <a class="nav-link text-white" routerLink="/category-list">Categories</a>
+          </li>
+          <!-- Si no está logueado, muestra Login -->
+          <li *ngIf="!isLoggedIn" class="nav-item">
             <a class="nav-link text-white" routerLink="/login">Login</a>
           </li>
-          <li class="nav-item">
+          <!-- Dashboard siempre visible -->
+          <li *ngIf="isLoggedIn"  class="nav-item">
             <a class="nav-link text-white" routerLink="/">Dashboard</a>
+          </li>
+          <!-- Opción de Logout cuando el usuario está logueado -->
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <a class="nav-link text-white" (click)="logout()">Logout</a>
           </li>
         </ul>
       </div>
