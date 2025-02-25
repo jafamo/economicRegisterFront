@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 
 @Component({
   selector: 'app-root',
-  imports: [LoginComponent],
-  template: '<app-login></app-login>',
-  styleUrl: './app.component.css'
+  standalone: true,
+  imports: [LoginComponent, NavbarComponent, RouterOutlet], // Importamos los componentes aquí
+  template: `
+    <app-navbar></app-navbar>   
+    <app-login></app-login>
+    <router-outlet></router-outlet> 
+  `,
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'economicRegister';
+  title = 'economic Register';
 }
