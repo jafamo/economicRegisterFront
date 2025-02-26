@@ -3,3 +3,33 @@
     max-width: 600px;
     margin-top: 20px;
   }
+
+  /* Estilos para el acordeón */
+.list-group-item {
+  cursor: pointer;
+}
+
+/* Estilos para los botones */
+button {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+button:hover {
+  color: #0056b3;
+}
+
+.bi {
+  font-size: 1.2rem;
+}
+
+.badge {
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 14px;
+  display: inline-block;
+  background-color: #17a2b8; /* Azul claro */
+  color: white;
+}

@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://economicregister.loc/api',  // URL de la API en desarrollo
+    apiUrl: 'http://localhost:9016/api',  // URL de la API en desarrollo
+    apiUrlCategories: 'http://localhost:9016/api/categories'
   };

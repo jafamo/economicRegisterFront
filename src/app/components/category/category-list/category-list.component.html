@@ -1,8 +1,28 @@
 <div class="container mt-4">
-    <h3>Listado de Categorías</h3>
-    <ul class="list-group">
-      <li *ngFor="let category of categories" class="list-group-item">
-        {{ category }}
-      </li>
-    </ul>
-  </div>
+  <h3>Listado de Categorías</h3>
+  <ul class="list-group">
+    <li *ngFor="let category of categories" class="list-group-item">
+      <div>
+        <!-- Nombre de la categoría -->
+        <strong>{{ category.name }}</strong>
+        
+        <!-- Mostrar el número de hijos en un círculo -->
+        <span *ngIf="category.childrenCount > 0" class="badge bg-info ms-3">
+          {{ category.childrenCount }}
+        </span>
+      </div>
+      
+      <!-- Acordeón para mostrar los hijos -->
+      <div *ngIf="category.children.length > 0">
+        <ul class="list-group mt-2">
+          <li *ngFor="let child of category.children" class="list-group-item">
+            {{ child.name }}
+            <span *ngIf="child.childrenCount > 0" class="badge bg-info ms-3">
+              {{ child.childrenCount }}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>
