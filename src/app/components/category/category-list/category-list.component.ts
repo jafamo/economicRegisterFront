@@ -13,6 +13,8 @@ import { Category } from '../../../models/category/category.model';
 export class CategoryListComponent implements OnInit {
   categories: Category[] = [];
   isLoggedIn = false;
+  expandedCategoryId: number | null = null; // Mantener el estado expandido de una categoría
+
 
   constructor(private categoryService: CategoryService, private authService: AuthService) {}
 
@@ -35,5 +37,13 @@ export class CategoryListComponent implements OnInit {
         console.error('Error al obtener categorías', err);
       }
     });
+  }
+
+  toggleCategoryExpansion(categoryId: number): void {
+    if (this.expandedCategoryId === categoryId) {
+      this.expandedCategoryId = null; // Si ya está expandido, lo colapsamos
+    } else {
+      this.expandedCategoryId = categoryId; // Si no, expandimos
+    }
   }
 }
