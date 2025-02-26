@@ -1,36 +1,43 @@
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <!-- Logo -->
-      <a class="navbar-brand" href="/">
-        <img src="angular.svg" alt="Economic Register" width="40" height="40">
-      </a>
-  
-      <!-- Botón del menú en pantallas pequeñas -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <!-- Menú -->
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <!-- Si el usuario está logueado, muestra el enlace de Categories -->
-          <li *ngIf="isLoggedIn" class="nav-item">
-            <a class="nav-link text-white" routerLink="/category-list">Categories</a>
-          </li>
-          <!-- Si no está logueado, muestra Login -->
-          <li *ngIf="!isLoggedIn" class="nav-item">
-            <a class="nav-link text-white" routerLink="/login">Login</a>
-          </li>
-          <!-- Dashboard siempre visible -->
-          <li *ngIf="isLoggedIn"  class="nav-item">
-            <a class="nav-link text-white" routerLink="/">Dashboard</a>
-          </li>
-          <!-- Opción de Logout cuando el usuario está logueado -->
-          <li *ngIf="isLoggedIn" class="nav-item">
-            <a class="nav-link text-white" (click)="logout()">Logout</a>
-          </li>
-        </ul>
-      </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand" href="/">
+      <img src="angular.svg" alt="Economic Register" width="40" height="40">
+    </a>
+
+    <!-- Botón del menú en pantallas pequeñas -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menú -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <!-- Si el usuario está logueado, muestra el enlace de Categories -->
+        <li *ngIf="isLoggedIn" class="nav-item">
+          <a class="nav-link text-white" 
+             routerLink="/category-list" 
+             routerLinkActive="active-link">Categories</a>
+        </li>
+        <!-- Si no está logueado, muestra Login -->
+        <li *ngIf="!isLoggedIn" class="nav-item">
+          <a class="nav-link text-white" 
+             routerLink="/login" 
+             routerLinkActive="active-link"
+             (click)="goToLogin()">Login</a>
+        </li>
+        <!-- Dashboard siempre visible -->
+        <li *ngIf="isLoggedIn" class="nav-item">
+          <a class="nav-link text-white" 
+             routerLink="/" 
+             routerLinkActive="active-link">Dashboard</a>
+        </li>
+        <!-- Opción de Logout cuando el usuario está logueado -->
+        <li *ngIf="isLoggedIn" class="nav-item">
+          <a class="nav-link text-white" (click)="logout()">Logout</a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule} from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
 export class NavbarComponent implements OnInit {
   isLoggedIn = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     // Verificar si el token existe en localStorage
@@ -23,5 +24,13 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.authService.logout(); // Llama al logout del AuthService
+    localStorage.removeItem('authToken');  // Eliminar token
+    this.isLoggedIn = false;  // Actualizar estado
+    this.router.navigate(['/login']);  // Redirigir al login
   }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
 }
