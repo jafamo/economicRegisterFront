@@ -39,11 +39,15 @@ export class CategoryListComponent implements OnInit {
     });
   }
 
-  toggleCategoryExpansion(categoryId: number): void {
-    if (this.expandedCategoryId === categoryId) {
+  toggleCategoryExpansion(categoryId: number| undefined): void {
+    /*if (this.expandedCategoryId === categoryId) {
       this.expandedCategoryId = null; // Si ya está expandido, lo colapsamos
     } else {
       this.expandedCategoryId = categoryId; // Si no, expandimos
-    }
+    }*/
+      if (categoryId !== undefined) {
+        // Solo llamamos si categoryId no es undefined
+        this.expandedCategoryId = categoryId;
+      }
   }
 }

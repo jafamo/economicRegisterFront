@@ -1,1 +1,35 @@
-<p>category-create works!</p>
+<div class="container mt-4">
+    <h3>Crear Nueva Categoría</h3>
+  
+    <!-- Mensaje de éxito -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+  
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Formulario de creación -->
+    <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+      <div class="form-group">
+        <label for="name">Nombre de la categoría</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="form-control"
+          placeholder="Nombre de la categoría"
+        />
+        <small *ngIf="categoryForm.controls['name'].hasError('pattern')" class="form-text text-danger">
+          El nombre de la categoría debe comenzar con mayúscula, y si tiene más de una palabra, cada palabra
+          debe comenzar con mayúscula.
+        </small>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid">
+        Crear Categoría
+      </button>
+    </form>
+  </div>

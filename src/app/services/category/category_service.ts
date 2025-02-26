@@ -31,7 +31,10 @@ export class CategoryService {
     categories.forEach(category => {
       category.children = []; // Inicializamos 'children' como un arreglo vacío
       category.childrenCount = 0;
-      categoryMap.set(category.id, category);
+      if (category.id !== undefined) {
+        categoryMap.set(category.id, category); // Aseguramos que `category.id` sea un número
+      }
+    
     });
 
     // Organiza las categorías por sus relaciones parent-child
@@ -39,9 +42,11 @@ export class CategoryService {
       if (category.parent) {
         const parentId = this.extractCategoryId(category.parent);
         const parentCategory = categoryMap.get(parentId);
-        if (parentCategory) {
+        if (parentCategory !== undefined) {
           parentCategory.children.push(category); // Añadimos 'category' a 'children' de su padre
-          parentCategory.childrenCount++;
+          if (parentCategory.childrenCount !== undefined) {
+            parentCategory.childrenCount++; // Solo incrementamos si `parentCategory` existe y tiene `childrenCount`
+          }
         }
       } else {
         roots.push(category); // Si no tiene padre, la agregamos a las raíces
@@ -63,4 +68,18 @@ export class CategoryService {
     const parts = url.split('/');
     return parseInt(parts[parts.length - 1]);
   }
+
+
+
+    /** Create Category */
+  createCategory(category: Category): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({
+      'Authorization': token ? `Bearer ${token}` : '',
+      'Accept': 'application/json'
+    });
+  
+    return this.http.post<any>(this.apiUrl, category, { headers });
+  }
+
 }
