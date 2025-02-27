@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Category } from '../../models/category/category.model'; // Importa la interfaz desde el modelo
+import { Router } from '@angular/router'; // Asegúrate de importar Router
+import { catchError } from 'rxjs/operators'; // Importa catchError para manejar errores
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ import { Category } from '../../models/category/category.model'; // Importa la i
 export class CategoryService {
   private apiUrl = environment.apiUrlCategories;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   getCategories(): Observable<Category[]> {
     const token = localStorage.getItem('authToken');
@@ -19,7 +21,15 @@ export class CategoryService {
       'Accept': 'application/json'
     });
 
-    return this.http.get<Category[]>(this.apiUrl, { headers });
+    return this.http.get<Category[]>(this.apiUrl, { headers }).pipe(
+      catchError((error) => {
+        if (error.status === 401 && error.error.message === "Expired JWT Token") {
+          // Redirige al usuario a la ruta category-list si el token ha expirado
+          this.router.navigate(['/category-list']);
+        }
+        throw error; // Propaga el error para que pueda ser manejado por otros suscriptores si es necesario
+      })
+    );
   }
 
   // Función para organizar categorías en una estructura de árbol
@@ -34,7 +44,6 @@ export class CategoryService {
       if (category.id !== undefined) {
         categoryMap.set(category.id, category); // Aseguramos que `category.id` sea un número
       }
-    
     });
 
     // Organiza las categorías por sus relaciones parent-child
@@ -69,17 +78,18 @@ export class CategoryService {
     return parseInt(parts[parts.length - 1]);
   }
 
-
-
-    /** Create Category */
-  createCategory(category: Category): Observable<any> {
+  /** Create Category */
+  createCategory(category: { name: string; parent?: number | null }): Observable<Category> {
     const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders({
       'Authorization': token ? `Bearer ${token}` : '',
-      'Accept': 'application/json'
+      'Content-Type': 'application/json'
     });
-  
-    return this.http.post<any>(this.apiUrl, category, { headers });
-  }
 
+    return this.http.post<Category>(this.apiUrl, {
+      name: category.name,
+      parent: category.parent ? `/api/categories/${category.parent}` : null
+    },
+    { headers });
+  }
 }

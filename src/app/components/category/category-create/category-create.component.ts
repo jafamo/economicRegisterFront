@@ -2,72 +2,60 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoryService } from '../../../services/category/category_service';
-import { AuthService } from '../../../services/auth.service';
 import { Category } from '../../../models/category/category.model';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-category-create',
-  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './category-create.component.html',
-  styleUrls: ['./category-create.component.css']
+  styleUrls: ['./category-create.component.css'],
+  imports: [ReactiveFormsModule, CommonModule]
 })
 export class CategoryCreateComponent implements OnInit {
-  categoryForm: FormGroup;
-  isLoggedIn: boolean = false;
+  categoryForm!: FormGroup;
+  categories: Category[] = []; // Lista de categorías para el desplegable
   errorMessage: string | null = null;
-  successMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private authService: AuthService,
     private router: Router
-  ) {
-    this.categoryForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern(/^[A-Z][a-zA-Z]*( [A-Z][a-zA-Z]*)*$/)]], // Validación de nombre
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.authService.isLoggedIn.subscribe((loggedIn) => {
-      this.isLoggedIn = loggedIn;
-      if (!this.isLoggedIn) {
-        this.router.navigate(['/login']); // Redirigir si no está logueado
+    this.categoryForm = this.fb.group({
+      name: ['', [Validators.required, Validators.pattern(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/)]],
+      parent: [null] // Permite seleccionar un padre o dejar vacío
+    });
+
+    this.loadCategories();
+  }
+
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (categories) => {
+        this.categories = categories;
+      },
+      error: (err) => {
+        console.error('Error al obtener categorías', err);
       }
     });
   }
 
-  // Función para crear la categoría
-  createCategory(): void {
-    if (this.categoryForm.invalid) {
-      this.errorMessage = 'El nombre de la categoría no es válido. Asegúrate de que empiece con mayúscula.';
-      return;
-    }
+  onSubmit(): void {
+    if (this.categoryForm.invalid) return;
 
-    const category: Category = {
-      name: this.categoryForm.value.name,
-      children: [],
-    };
-
-    this.categoryService.createCategory(category).subscribe({
-      next: (response) => {
-        if (response.status === 201) {
-          this.successMessage = 'Categoría creada con éxito!';
-          setTimeout(() => {
-            this.router.navigate(['/categories']); // Redirigir al listado de categorías
-          }, 2000); // Redirigir después de 2 segundos para mostrar el mensaje
-        }
+    this.categoryService.createCategory(this.categoryForm.value).subscribe({
+      next: () => {
+        this.router.navigate(['/category-list'], {
+          queryParams: { success: 'true' }
+        });
       },
-      error: (error) => {
-        if (error.status === 400 && error.error.message === 'Categoria ya existe') {
-          this.errorMessage = 'Ya existe una categoría con ese nombre.';
-        } else {
-          this.errorMessage = 'Hubo un error al crear la categoría. Por favor, inténtalo de nuevo.';
-        }
-      },
+      error: (err) => {
+        this.errorMessage = err.error.message || 'Error al crear la categoría';
+      }
     });
   }
 }

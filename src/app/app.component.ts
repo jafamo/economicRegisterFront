@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms'; 
-import { CategoryCreateComponent } from './components/category/category-create/category-create.component';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +24,6 @@ export class AppComponent {
   // Aquí puedes actualizar el estado de `isLoggedIn` después del login exitoso.
   onLoginSuccess() {
     this.isLoggedIn = true;
-    this.router.navigate(['/category-list']);  // Redirigir al listado de categorías después de login
+    //this.router.navigate(['/category-list']);  // Redirigir al listado de categorías después de login
   }
 }
