@@ -77,4 +77,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   goToCategories() {    
     this.router.navigate(this.isLoggedIn ? ['/category-list'] : ['/login']);
   }
+
+  goToDashboard() {    
+    this.router.navigate(this.isLoggedIn ? ['/dashboard'] : ['/login']);
+  }
 }
