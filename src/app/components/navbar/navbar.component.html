@@ -47,7 +47,7 @@
 
         <!-- Dashboard siempre visible -->
         <li *ngIf="isLoggedIn" class="nav-item">
-          <a class="nav-link text-white" (click)="logout()" routerLink="/" routerLinkActive="active-link">
+          <a class="nav-link text-white" (click)="goToDashboard()" routerLink="/dashboard" routerLinkActive="active-link">
             Dashboard
           </a>
         </li>

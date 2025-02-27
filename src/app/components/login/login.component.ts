@@ -37,7 +37,7 @@ export class LoginComponent {
         console.log('Token recibido:', res.token);
         localStorage.setItem('authToken', res.token);
         this.getProfile(res.token);
-        this.router.navigate(['/category-list']);
+        this.router.navigate(['/dashboard']);
 
       },
       error: (err) => {
@@ -51,7 +51,6 @@ export class LoginComponent {
   getProfile(token: string) {
     this.authService.getProfile(token).subscribe({
       next: (profile) => {
-        console.log('Perfil:', profile);
         this.authService.setProfile(profile); // Almacena el perfil en el servicio
       },
       error: (err) => {
