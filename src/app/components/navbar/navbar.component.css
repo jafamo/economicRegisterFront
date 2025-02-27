@@ -5,3 +5,20 @@
   .navbar-brand img:hover {
     transform: scale(1.1);
   }
+
+  /* Cambio de color al pasar el ratón */
+.navbar-nav .nav-link {
+  transition: background-color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+/* Cambio de color cuando la ruta está activa */
+.active-link {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  font-weight: bold;
+}

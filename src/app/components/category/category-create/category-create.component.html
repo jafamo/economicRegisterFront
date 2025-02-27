@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h2>Crear Categoría</h2>
+
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+    <!-- Nombre de la categoría -->
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre de la Categoría</label>
+      <input type="text" id="name" class="form-control" formControlName="name">
+      <div *ngIf="categoryForm.controls['name'].invalid && categoryForm.controls['name'].touched" class="text-danger">
+        El nombre debe comenzar con mayúscula (Ej: 'Casa' o 'Casa Javier').
+      </div>
+    </div>
+
+    <!-- Selección de categoría padre -->
+    <div class="mb-3">
+      <label for="parent" class="form-label">Categoría Padre (Opcional)</label>
+      <select id="parent" class="form-select" formControlName="parent">
+        <option [value]="null">Sin categoría padre</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Botón de envío -->
+    <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid">Crear Categoría</button>
+  </form>
+</div>

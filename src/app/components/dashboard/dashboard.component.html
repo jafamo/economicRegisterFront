@@ -1,0 +1,26 @@
+<div class="container mt-4">
+    <div class="row">
+      <!-- Mapa a la izquierda -->
+      <div class="col-md-8">
+        <!--<div id="google-map" style="width: 100%; height: 500px;"></div>-->
+        <div id="google-map" style="height: 500px;"></div>
+      </div>
+  
+      <!-- Acordeón de hospitales a la derecha -->
+      <div class="col-md-4">
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let hospital of hospitals; let i = index">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ hospital.name }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+              <p><strong>Latitud:</strong> {{ hospital.lat }}</p>
+              <p><strong>Longitud:</strong> {{ hospital.lng }}</p>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+  </div>

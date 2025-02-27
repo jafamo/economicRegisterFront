@@ -1,0 +1,52 @@
+/* Opcional: Añadir estilos personalizados */
+.container {
+    max-width: 600px;
+    margin-top: 20px;
+  }
+
+  /* Estilos para el acordeón */
+.list-group-item {
+  cursor: pointer;
+}
+
+/* Estilos para los botones */
+button {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+button:hover {
+  color: #0056b3;
+}
+
+.bi {
+  font-size: 1.2rem;
+}
+
+
+.category-item {
+  margin-bottom: 15px;
+}
+
+.children-list {
+  margin-left: 20px;
+}
+
+.badge {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 50%;
+}
+
+button {
+  width: 100%;
+  text-align: left;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #f0f0f0;
+}

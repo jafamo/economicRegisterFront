@@ -1,0 +1,11 @@
+.alert {
+    margin-top: 20px;
+  }
+  
+  button[disabled] {
+    background-color: #6c757d;
+  }
+  
+  button {
+    margin-top: 10px;
+  }

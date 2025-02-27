@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <h3>Listado de Categorías</h3>
+  <div *ngFor="let category of categories">
+    <!-- Categoría Padre -->
+    <div class="category-item">
+      <button (click)="toggleCategoryExpansion(category.id)" class="btn btn-primary">
+        {{ category.name }}
+        <span class="badge badge-secondary ml-2">
+          {{ category.childrenCount }} <!-- Mostrar el número de hijos -->
+        </span>
+      </button>
+      
+      <!-- Mostrar Hijos si la categoría está expandida -->
+      <div *ngIf="expandedCategoryId === category.id" class="children-list">
+        <ul>
+          <li *ngFor="let child of category.children">
+            {{ child.name }} <!-- Nombre del hijo -->
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
