@@ -4,6 +4,10 @@
     <a class="navbar-brand" href="/">
       <img src="angular.svg" alt="Economic Register" width="40" height="40">
     </a>
+    <div *ngIf="isLoggedIn">
+      <span class="text-white">Bienvenido, {{ userName }}</span>
+      <!-- Puedes ponerlo en cualquier lugar de tu barra de navegación -->
+    </div>
 
     <!-- Botón del menú en pantallas pequeñas -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -14,28 +18,45 @@
     <!-- Menú -->
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
-        <!-- Si el usuario está logueado, muestra el enlace de Categories -->
-        <li *ngIf="isLoggedIn" class="nav-item">
-          <a class="nav-link text-white" 
-             routerLink="/category-list" 
-             routerLinkActive="active-link">Categories</a>
+        <!-- Dropdown para Categories -->
+        <li *ngIf="isLoggedIn" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="categoriesDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+            <li>
+              <a class="dropdown-item" (click)="goToCategories()" routerLink="/category-list" routerLinkActive="active-link">
+                View Categories
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="goToNewCategory()" routerLink="/category-create" routerLinkActive="active-link">
+                Create Category
+              </a>
+            </li>
+          </ul>
         </li>
+
         <!-- Si no está logueado, muestra Login -->
         <li *ngIf="!isLoggedIn" class="nav-item">
-          <a class="nav-link text-white" 
-             routerLink="/login" 
-             routerLinkActive="active-link"
-             (click)="goToLogin()">Login</a>
+          <a class="nav-link text-white" routerLink="/login" routerLinkActive="active-link" (click)="goToLogin()">
+            Login
+          </a>
         </li>
+
         <!-- Dashboard siempre visible -->
         <li *ngIf="isLoggedIn" class="nav-item">
-          <a class="nav-link text-white" 
-             routerLink="/" 
-             routerLinkActive="active-link">Dashboard</a>
+          <a class="nav-link text-white" (click)="logout()" routerLink="/" routerLinkActive="active-link">
+            Dashboard
+          </a>
         </li>
+
         <!-- Opción de Logout cuando el usuario está logueado -->
         <li *ngIf="isLoggedIn" class="nav-item">
-          <a class="nav-link text-white" (click)="logout()">Logout</a>
+          <a class="nav-link text-white" (click)="logout()">
+            Logout
+          </a>
         </li>
       </ul>
     </div>

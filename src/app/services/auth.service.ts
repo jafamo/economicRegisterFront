@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -16,6 +16,9 @@ interface LoginResponse {
 export class AuthService {
   private apiUrl = environment.apiUrl;
   private loggedInSubject = new BehaviorSubject<boolean>(false);
+  private profileSubject = new BehaviorSubject<any>(null); // Subject para el perfil
+  public profile$ = this.profileSubject.asObservable(); // Observable para el perfil
+
 
   constructor(private http: HttpClient) {
     const token = localStorage.getItem('authToken');
@@ -45,10 +48,22 @@ export class AuthService {
     localStorage.removeItem('authToken');
     this.loggedInSubject.next(false); // Cambia el estado a no logueado
   }
-  
-  getProfile(token: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/profile`, {
-      headers: { Authorization: `Bearer ${token}` }
+
+   // Método para obtener el perfil con el token
+   getProfile(token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
     });
+
+    return this.http.get<any>(`${environment.apiUrl}/profile`, { headers });
   }
+
+  // Método para almacenar el perfil
+  setProfile(profile: any) {
+    this.profileSubject.next(profile); // Actualiza el perfil
+  }
+
+
+  
 }

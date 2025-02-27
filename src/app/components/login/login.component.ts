@@ -36,7 +36,7 @@ export class LoginComponent {
       next: (res) => {
         console.log('Token recibido:', res.token);
         localStorage.setItem('authToken', res.token);
-        //this.getProfile(res.token);
+        this.getProfile(res.token);
         this.router.navigate(['/category-list']);
 
       },
@@ -47,10 +47,17 @@ export class LoginComponent {
     });
   }
 
+
   getProfile(token: string) {
     this.authService.getProfile(token).subscribe({
-      next: (profile) => console.log('Perfil:', profile),
-      error: (err) => console.error('Error al obtener perfil', err)
+      next: (profile) => {
+        console.log('Perfil:', profile);
+        this.authService.setProfile(profile); // Almacena el perfil en el servicio
+      },
+      error: (err) => {
+        console.error('Error al obtener perfil', err)
+        this.router.navigate(['/login']);
+      }
     });
   }
 
